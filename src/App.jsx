@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <h1>Welcome CSA Academy</h1>
+      <h1>This is just testing commit</h1>
     </>
   );
 }
