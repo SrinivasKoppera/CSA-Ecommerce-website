@@ -1,6 +1,68 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const SignUp = () => {
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  const onHandlerChange = (e) => {
+    const fieldName = e.target.name;
+    const data = e.target.value;
+    setFormData({ ...formData, [fieldName]: data });
+  };
+
+  const onSubmitHandler = () => {
+    if (
+      formData.firstName === "" ||
+      formData.lastName === "" ||
+      formData.email === "" ||
+      formData.password === ""
+    ) {
+      enqueueSnackbar("All Fields Required", {
+        variant: "error",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+        autoHideDuration: 3000,
+      });
+      return;
+    }
+    const existingUser = localStorage.getItem("userData");
+    const userArray = existingUser ? JSON.parse(existingUser) : [];
+    const result = userArray.some(
+      (eachUser) => eachUser.email === formData.email
+    );
+    if (result) {
+      enqueueSnackbar("User Already exits....", {
+        variant: "error",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+        autoHideDuration: 3000,
+      });
+      return;
+    }
+    userArray.push(formData);
+    localStorage.setItem("userData", JSON.stringify(userArray));
+    enqueueSnackbar("User added successfully....", {
+      variant: "success",
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "center",
+      },
+      autoHideDuration: 3000,
+    });
+  };
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
       <div className="w-full md:w-1/2 bg-cover bg-center flex items-center justify-center">
@@ -21,6 +83,8 @@ const SignUp = () => {
               type="text"
               className="p-2 border border-slate-400 rounded outline-none"
               placeholder="Please Enter your First Name"
+              onChange={onHandlerChange}
+              name="firstName"
             />
           </div>
 
@@ -30,6 +94,8 @@ const SignUp = () => {
               type="text"
               className="p-2 border rounded border-slate-400 outline-none"
               placeholder="Please Enter your Last Name"
+              onChange={onHandlerChange}
+              name="lastName"
             />
           </div>
 
@@ -39,19 +105,25 @@ const SignUp = () => {
               type="email"
               className="p-2 border rounded border-slate-400 outline-none"
               placeholder="Please Enter your Email"
+              onChange={onHandlerChange}
+              name="email"
             />
           </div>
-
           <div className="flex flex-col my-2">
             <label className="mb-1">Password</label>
             <input
               type="password"
               className="p-2 border border-slate-400 rounded outline-none"
               placeholder="Please Enter Your Password"
+              onChange={onHandlerChange}
+              name="password"
             />
           </div>
 
-          <button className="bg-slate-900 text-white w-full rounded p-2">
+          <button
+            onClick={onSubmitHandler}
+            className="bg-slate-900 text-white w-full rounded p-2"
+          >
             Sign Up
           </button>
 
