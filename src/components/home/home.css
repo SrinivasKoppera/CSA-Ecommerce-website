@@ -1,0 +1,32 @@
+/* Typing animation CSS */
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.typing-text {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation: typing 3s steps(30) 1s forwards, blink 0.75s step-end infinite;
+  font-family: "Courier New", monospace;
+}
+
+/* Optional: Add a cursor blink effect */
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.typing-text::after {
+  display: inline-block;
+  margin-left: 4px;
+  border-right: 2px solid black;
+  animation: blink 0.75s step-end infinite;
+}

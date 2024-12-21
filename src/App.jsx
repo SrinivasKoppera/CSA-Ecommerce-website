@@ -7,6 +7,7 @@ import Products from "./components/products/products";
 import NotFound from "./components/not-found/not-found";
 import Login from "./components/login/login";
 import SignUp from "./components/sign-up/sign-up";
+import ProtectedRoute from "./components/protected-route/protected-route";
 
 function App() {
   return (
@@ -14,9 +15,11 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/cart" element={<Cart />} />
+          </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="*" element={<NotFound />} />

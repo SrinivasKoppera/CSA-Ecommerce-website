@@ -1,6 +1,62 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const onHandlerChange = (e) => {
+    const fieldName = e.target.name;
+    const data = e.target.value;
+    setFormData({ ...formData, [fieldName]: data });
+  };
+
+  const onHandleLogin = () => {
+    const userData = localStorage.getItem("userData");
+    const userDataArr = JSON.parse(userData);
+    const emailCheck = userDataArr.map((data) => {
+      if (data.email === formData.email) {
+        if (data.password === formData.password) {
+          enqueueSnackbar("Login Success....", {
+            variant: "success",
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "center",
+            },
+            autoHideDuration: 3000,
+          });
+          localStorage.setItem("isLoggedIn", true);
+          //API CALL
+          navigate("/");
+        } else {
+          enqueueSnackbar("Please Enter Valid Password....", {
+            variant: "error",
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "center",
+            },
+            autoHideDuration: 3000,
+          });
+        }
+      } else {
+        enqueueSnackbar("Please Enter Valid Email...", {
+          variant: "error",
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+          autoHideDuration: 3000,
+        });
+      }
+    });
+  };
+
   return (
     <div className="h-[90vh] flex justify-center items-center">
       <div className="flex w-full max-w-6xl">
@@ -22,6 +78,8 @@ const Login = () => {
               type="email"
               className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Please Enter your email"
+              onChange={onHandlerChange}
+              name="email"
             />
           </div>
           <div className="flex flex-col mb-6">
@@ -30,9 +88,14 @@ const Login = () => {
               type="password"
               className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Please Enter Your Password"
+              onChange={onHandlerChange}
+              name="password"
             />
           </div>
-          <button className="bg-slate-900 text-white w-full rounded-lg p-3 hover:bg-slate-700 transition duration-300">
+          <button
+            onClick={onHandleLogin}
+            className="bg-slate-900 text-white w-full rounded-lg p-3 hover:bg-slate-700 transition duration-300"
+          >
             Login
           </button>
           <p className="text-center mt-6 text-gray-600">

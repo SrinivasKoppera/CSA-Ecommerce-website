@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -61,6 +63,7 @@ const SignUp = () => {
       },
       autoHideDuration: 3000,
     });
+    navigate("/login");
   };
 
   return (
