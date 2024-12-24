@@ -7,7 +7,6 @@ const Home = () => {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
       <div className="flex flex-col md:flex-row items-center w-full max-w-screen-xl px-6 py-12">
-        {/* Left Side Image */}
         <div className="flex-1">
           <img
             src={homeShoppingImage}
@@ -16,7 +15,6 @@ const Home = () => {
           />
         </div>
 
-        {/* Right Side Text Container */}
         <div className="flex-1 mt-6 md:mt-0 md:ml-12 text-center md:text-left">
           <h2 className="text-3xl font-bold text-gray-800 mb-4 typing-text">
             Welcome to Our Website
@@ -32,8 +30,7 @@ const Home = () => {
             extraordinary, offering a canvas for self-expression that can never
             be fully defined.
           </p>
-
-          <Link to="/">
+          <Link to="/products">
             <button className="px-8 py-3 bg-slate-900 text-white font-semibold rounded-lg shadow-md hover:bg-slate-600 transition-colors duration-300">
               Get Started
             </button>
