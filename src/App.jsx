@@ -8,6 +8,7 @@ import NotFound from "./components/not-found/not-found";
 import Login from "./components/login/login";
 import SignUp from "./components/sign-up/sign-up";
 import ProtectedRoute from "./components/protected-route/protected-route";
+import ProductDetails from "./components/products/products-details";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="products/:id" element={<ProductDetails />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
