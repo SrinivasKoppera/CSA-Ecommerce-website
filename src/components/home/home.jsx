@@ -2,6 +2,7 @@ import React from "react";
 import homeShoppingImage from "../../assets/shopping_home_image.jpeg";
 import "./home.css";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   return (
