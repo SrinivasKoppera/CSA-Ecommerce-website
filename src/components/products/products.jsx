@@ -1,10 +1,13 @@
 import OfferBanner from "./banner-carousel";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ProductCard from "./product-card";
 
 const Products = () => {
   const [productsData, setProductsData] = useState([]);
+  const [userQuey, setUserQuery] = useState("");
+
+  const element = useRef(null);
 
   const fetchData = async () => {
     try {
@@ -20,6 +23,12 @@ const Products = () => {
     fetchData();
   }, []);
 
+  const filteredData = productsData.filter((product) =>
+    product.title.toLowerCase().includes(userQuey.toLocaleLowerCase())
+  );
+
+  console.log("This is Use Ref... Hook", element);
+
   return (
     <div className="bg-slate-300">
       <OfferBanner />
@@ -29,13 +38,28 @@ const Products = () => {
           before they're gone! 🛍️✨ ⌚
         </p>
       </marquee>
-      <h1 className="font-bold text-4xl text-center m-4 text-sky-800">
+      <h1
+        className="font-bold text-4xl text-center m-4 text-sky-800"
+        ref={element}
+      >
         Products
       </h1>
+      <div className="text-center">
+        <input
+          placeholder="Search..."
+          className="p-2 rounded"
+          value={userQuey}
+          onChange={(event) => setUserQuery(event.target.value)}
+        />
+      </div>
       <div className="flex justify-center flex-wrap">
-        {productsData.map((eachProduct) => {
-          return <ProductCard key={eachProduct.id} data={eachProduct} />;
-        })}
+        {filteredData.length > 0 ? (
+          filteredData.map((eachProduct) => {
+            return <ProductCard key={eachProduct.id} data={eachProduct} />;
+          })
+        ) : (
+          <h1 className="text-2xl font-bold m-10">Not Products Found</h1>
+        )}
       </div>
     </div>
   );

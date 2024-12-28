@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import { FaCartShopping } from "react-icons/fa6";
 import logo from "../../assets/logo.jpg";
 import { useSelector } from "react-redux";
+import { useCart } from "../../context-api/cart-context-api";
 
 const Header = () => {
-  const cart = useSelector((state) => state.cart);
+  // const cart = useSelector((state) => state.cart);
+  const { getTotalItems } = useCart();
 
   return (
     <div className="text-orange-700 bg-slate-900 p-4">
@@ -24,7 +26,9 @@ const Header = () => {
           </Link>
           <Link to="/cart" className="text-white font-bold">
             <div className="flex flex-col justify-center items-center relative p-2">
-              <span className="absolute -top-2 right-0 ">{cart.length}</span>
+              <span className="absolute -top-2 right-0 ">
+                {getTotalItems()}
+              </span>
               <FaCartShopping />
             </div>
           </Link>
