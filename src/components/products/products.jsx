@@ -5,6 +5,7 @@ import ProductCard from "./product-card";
 
 const Products = () => {
   const [productsData, setProductsData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // Step 1: State for search query
 
   const fetchData = async () => {
     try {
@@ -20,6 +21,11 @@ const Products = () => {
     fetchData();
   }, []);
 
+  // Step 2: Filter products based on search query
+  const filteredProducts = productsData.filter((product) =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="bg-slate-300">
       <OfferBanner />
@@ -32,10 +38,26 @@ const Products = () => {
       <h1 className="font-bold text-4xl text-center m-4 text-sky-800">
         Products
       </h1>
+
+      {/* Step 3: Search input */}
+      <div className="flex justify-center mb-4">
+        <input
+          type="text"
+          placeholder="Search for products..."
+          className="p-2 w-1/3 border border-gray-400 rounded"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)} // Step 4: Update search query on input change
+        />
+      </div>
+
       <div className="flex justify-center flex-wrap">
-        {productsData.map((eachProduct) => {
-          return <ProductCard key={eachProduct.id} data={eachProduct} />;
-        })}
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((eachProduct) => (
+            <ProductCard key={eachProduct.id} data={eachProduct} />
+          ))
+        ) : (
+          <p className="text-center text-xl text-gray-600">No products found</p>
+        )}
       </div>
     </div>
   );

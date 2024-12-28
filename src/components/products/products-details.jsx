@@ -6,12 +6,14 @@ import { addToCartAction } from "../../redux/actions";
 import { useSnackbar } from "notistack";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
+import { useCart } from "../../context-api/cart-context";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  const { addToCart } = useCart();
 
   const [productData, setProductData] = useState([]);
   const [qty, setQty] = useState(0);
@@ -109,6 +111,14 @@ const ProductDetails = () => {
           className="bg-slate-800 text-white p-2 rounded m-2"
         >
           Add to Cart
+        </button>
+        <button
+          onClick={() => {
+            addToCart(productData);
+          }}
+          className="bg-slate-800 text-white p-2 rounded m-2"
+        >
+          Add to Cart - Context
         </button>
       </div>
     </div>

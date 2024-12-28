@@ -3,12 +3,14 @@ import emptyCartImage from "../../assets/cart.webp";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { removeItemFromCartAction } from "../../redux/actions";
+import { useCart } from "../../context-api/cart-context";
 
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const cartItems = useSelector((state) => state.cart);
+  const { cart, removeFromCart, getTotalItems } = useCart();
 
   const removeItemFromCart = (id) => {
     dispatch(removeItemFromCartAction(id));
@@ -16,6 +18,7 @@ const Cart = () => {
 
   return (
     <div className="m-6">
+      {cart.length}
       {cartItems.length === 0 ? (
         <div className="flex flex-col justify-center items-center">
           <img className="w-1/4" src={emptyCartImage} alt="empty-cart" />
